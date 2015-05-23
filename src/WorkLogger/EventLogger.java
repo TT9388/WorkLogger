@@ -1,6 +1,5 @@
 package WorkLogger;
 
-import org.controlsfx.control.Notifications;
 import org.joda.time.DateTime;
 
 import java.io.*;
@@ -70,9 +69,9 @@ public class EventLogger {
                 FileWriter fw = new FileWriter(Config.LOCK_FILE);
                 fw.write(String.format("%d\n%s\n%s", new DateTime().getMillis(), wifiName, new DateTime().toString()));
                 fw.close();
-                Notifications.create()
-                        .text("Workstation monitoring started.")
-                        .showInformation();
+                //Notifications.create()
+                //        .text("Workstation monitoring started.")
+                //        .showInformation();
                 return  true;
             } catch (IOException e) {
                 log.log(Level.SEVERE, e.toString(), e);

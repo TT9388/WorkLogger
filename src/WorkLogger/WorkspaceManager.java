@@ -80,6 +80,12 @@ public class WorkspaceManager {
         public DateTime startTime;
         public DateTime endTime;
 
+        public TimeEntry(DateTime startTime, DateTime endTime) {
+            this.endTime = endTime;
+            this.startTime = startTime;
+            recalculate();
+        }
+
         public TimeEntry(long startTimeLong, long endTimeLong) {
             startTime = new DateTime(startTimeLong);
             endTime = new DateTime(endTimeLong);
@@ -103,7 +109,7 @@ public class WorkspaceManager {
          */
         public DateTime stringToDateTime(String time){
             try {
-                return DateTime.parse(time, DateTimeFormat.forPattern("HH:mm:ss MM.dd.yy"));
+                return DateTime.parse(time, DateTimeFormat.forPattern("HH:mm:ss dd.MM.yy"));
             } catch (Exception e){
 
             }
@@ -130,6 +136,10 @@ public class WorkspaceManager {
         public String toString(){
             return startTime.toString() + " - " + endTime.toString();
         }
+
+        public String getKey() {
+            return startTime.getMillis() + "-" + endTime.getMillis();
+        }
     }
 
     /**
@@ -143,6 +153,8 @@ public class WorkspaceManager {
     public String getName() {
         return name;
     }
+
+    public WorkspaceManager(){}
 
     /**
      * Init logging
@@ -181,14 +193,14 @@ public class WorkspaceManager {
      * @return true if OK else false
      */
     public boolean save() {
-        try (FileOutputStream output = new FileOutputStream(Config.WORKSPACE_LOCATION + name + ".bin")) {
-
+        try {
+            FileOutputStream output = new FileOutputStream(Config.WORKSPACE_LOCATION + name);
             for(Map.Entry<String, TimeEntry> e: entries.entrySet()){
                 TimeEntry v = e.getValue();
                 output.write(ByteBuffer.allocate(8).putLong(v.startTime.getMillis()).array());  // start time to bin
                 output.write(ByteBuffer.allocate(8).putLong(v.endTime.getMillis()).array());    // end   time to bin
             }
-
+            output.flush();
             output.close();
             return true;
         } catch (IOException e) {

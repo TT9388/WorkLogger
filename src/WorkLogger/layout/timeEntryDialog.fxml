@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="Start time" />
+      <HBox spacing="5.0">
+         <children>
+            <DatePicker fx:id="start_date" prefHeight="31.0" prefWidth="160.0" />
+            <Separator orientation="VERTICAL" />
+            <TextField fx:id="start_h" prefWidth="40.0" />
+            <Label text="h">
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="start_min" prefWidth="40.0" />
+            <Label text="min">
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <Separator prefWidth="200.0" />
+      <Label text="End time" />
+      <HBox fx:id="end_date" spacing="5.0">
+         <children>
+            <DatePicker prefWidth="160.0" />
+            <Separator orientation="VERTICAL" />
+            <TextField fx:id="end_h" prefWidth="40.0" />
+            <Label text="h">
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="end_min" prefWidth="40.0" />
+            <Label text="min">
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</VBox>

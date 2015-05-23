@@ -2,6 +2,7 @@ package WorkLogger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,10 +13,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.Notifications;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.InetAddress;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class MainController implements Initializable {
 
@@ -23,6 +28,7 @@ public class MainController implements Initializable {
     @FXML public Button btn_save_workspaces_config;
     @FXML public TabPane tp_workspaces;
     @FXML public VBox vb_workspaces_list;
+    @FXML public Label l_username;
     @FXML private ComboBox cb_wifi;
     @FXML private Button btn_log_stop;
     @FXML private Button btn_log_start;
@@ -37,6 +43,11 @@ public class MainController implements Initializable {
             if (!oldValue.equals(newValue))
                 btn_save_workspaces_config.setDisable(false);
         });
+        try {
+            l_username.setText("Current user: " + InetAddress.getLocalHost().getHostName() + "/" + System.getProperty("user.name"));
+        } catch (UnknownHostException e) {
+            l_username.setText("Current user: " + "[xml generate will fail!]/" + System.getProperty("user.name"));
+        }
     }
 
     public void clearWorkspaceList(){
@@ -139,7 +150,11 @@ public class MainController implements Initializable {
             String selectedWifi = cb_wifi.getValue().toString();
             if (!selectedWifi.isEmpty()) {
                 EventLogger el = new EventLogger();
-                el.logLoginEvent(selectedWifi);
+                if(el.logLoginEvent(selectedWifi)){
+                    Notifications.create()
+                            .text("Workstation monitoring started.")
+                            .showInformation();
+                }
                 btn_log_stop.setDisable(false);
                 btn_log_start.setDisable(true);
                 cb_wifi.setDisable(true);
@@ -153,7 +168,11 @@ public class MainController implements Initializable {
     public void stopLogging() {
         //EventLogger.main(new String[]{"logout", cb_wifi.getValue().toString()});
         EventLogger el = new EventLogger();
-        el.logLogoutEvent();
+        if(el.logLogoutEvent()){
+            Notifications.create()
+                    .text("Workstation monitoring stopped.")
+                    .showInformation();
+        }
         btn_log_stop.setDisable(true);
         btn_log_start.setDisable(false);
         cb_wifi.setDisable(false);
@@ -184,5 +203,59 @@ public class MainController implements Initializable {
         }
         refreshSettingsManager();
         btn_save_workspaces_config.setDisable(true);
+    }
+
+    public void generateBat(ActionEvent actionEvent) {
+        String location = "";
+        try {
+            location = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getAbsolutePath();
+            location = "cd /D \""+location+"\"";
+        } catch (URISyntaxException e) {
+            Notifications.create()
+                    .title("Error")
+                    .text("Couldn't get application location. *.bat files might not work.")
+                    .showWarning();
+        }
+        try {
+            PrintWriter writer = new PrintWriter("login.bat", "UTF-8");
+            writer.println(location);
+            writer.println("java -jar WorkLogger.jar login");
+            writer.close();
+            Notifications.create()
+                    .text("File login.bat created.")
+                    .showInformation();
+        } catch (FileNotFoundException | UnsupportedEncodingException e){
+            Notifications.create()
+                    .title("Error")
+                    .text("Failed to create login.bat")
+                    .showWarning();
+        }
+        try {
+            PrintWriter writer = new PrintWriter("logout.bat", "UTF-8");
+            writer.println(location);
+            writer.println("java -jar WorkLogger.jar logout");
+            writer.close();
+            Notifications.create()
+                    .text("File logout.bat created.")
+                    .showInformation();
+        } catch (FileNotFoundException | UnsupportedEncodingException e){
+            Notifications.create()
+                    .title("Error")
+                    .text("Failed to create logout.bat")
+                    .showWarning();
+        }
+    }
+
+    public void generateXml(ActionEvent actionEvent) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("resource/WorkLogger - login.xml").getFile());
+        try {
+            Scanner scan = new Scanner(file);
+            scan.useDelimiter("\\Z");
+            System.out.print(scan.next());
+            scan.close();
+        } catch (FileNotFoundException e){
+
+        }
     }
 }

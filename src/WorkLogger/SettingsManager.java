@@ -8,10 +8,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -138,7 +135,6 @@ public class SettingsManager {
         obj.put("workspaces", workspaces_list);
 
         try {
-
             FileWriter file = new FileWriter(Config.CONFIG_FILE);
             file.write(obj.toJSONString());
             file.flush();

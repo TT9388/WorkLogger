@@ -13,3 +13,8 @@ A program that records how much time the user has used the computer at a specifi
 
 ## Restrictions
 Since the program gets its name from the program ```cmd.exe```, and could be registered only under 'windows service'. Its operation is limited to the windows platform.
+
+---
+
+>GitHub: https://github.com/TT9388/WorkLogger
+>https://github.com/TT9388/WorkLogger.git

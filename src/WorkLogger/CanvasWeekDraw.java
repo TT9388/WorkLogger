@@ -43,7 +43,7 @@ public class CanvasWeekDraw {
     public void resetRange(){
         start = new DateTime();
         start = start.minusDays(start.getDayOfWeek() - 1).toDateTime();
-        end = start.toDateTime().plusDays(7);
+        end = start.toDateTime().plusDays(6);
         start = start.minusMillis(start.millisOfDay().get());
         end = end.minusMillis(end.millisOfDay().get());
         draw();
@@ -104,7 +104,7 @@ public class CanvasWeekDraw {
         gc.clearRect(0, 0, canvasWidth, canvasHeight);
         gc.setFill(Color.CORAL);
 
-        int days = Days.daysBetween(start, end).getDays();
+        int days = Days.daysBetween(start, end.plusDays(1)).getDays();
         dayWidth = (canvasWidth - offestLeft) / days;
         minuteHeight = (canvasHeight - offestBottom) / (24 * 60);
 
@@ -119,7 +119,7 @@ public class CanvasWeekDraw {
         }
 
         double hourHeight = minuteHeight * 60;
-        gc.setFont(new Font("System", hourHeight - 1));
+        gc.setFont(new Font("System", (hourHeight < 12) ? (hourHeight - 1) : 12));
         for(int i = 0; i < 24; i++){
             gc.setStroke(new Color(0, 0, 0 , 0.03));
             double y = i * hourHeight;
@@ -131,13 +131,13 @@ public class CanvasWeekDraw {
         DateTimeFormatter dtf = DateTimeFormat.forPattern( (days <= 7) ? "EE, d.MM" : "d.MM");
         DateTime tmpTime = new DateTime(start);
         int dayC = 0;
-        while(tmpTime.isBefore(end)){
+        while(tmpTime.isBefore(end.plusDays(1))){
             gc.strokeText(dtf.print(tmpTime), offestLeft  + dayWidth * dayC + 5, canvasHeight - offestBottom/2);
             dayC++;
             tmpTime = tmpTime.plusDays(1);
         }
 
-        long endTime = end.getMillis();
+        long endTime = end.plusDays(1).getMillis();
         for(Map.Entry<String, WorkspaceManager.TimeEntry> entry : data.tailMap( start.getMillis() + "" ).entrySet()) {
             WorkspaceManager.TimeEntry timeEntry = entry.getValue();
             if(timeEntry.startTime.getMillis() > endTime) {
