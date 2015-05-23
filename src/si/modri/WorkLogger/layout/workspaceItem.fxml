@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="si.modri.WorkLogger.WorkspaceItemController">
+   <children>
+      <Canvas fx:id="c_icon" height="50.0" width="50.0" />
+      <Label fx:id="l_name" text="Workspace name">
+         <HBox.margin>
+            <Insets top="10.0" />
+         </HBox.margin>
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+   </children>
+</HBox>

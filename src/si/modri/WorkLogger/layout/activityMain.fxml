@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox minHeight="600" minWidth="800" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="si.modri.WorkLogger.MainController">
+    <children>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+            <TabPane fx:id="tp_workspaces" prefHeight="380.0" prefWidth="600.0" tabClosingPolicy="ALL_TABS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <tabs>
+                    <Tab fx:id="tab_start_page" closable="false" text="Start page">
+                        <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="161.0" prefWidth="481.0">
+                                <children>
+                           <Accordion fx:id="accordion_startp" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                             <panes>
+                               <TitledPane fx:id="tp_select_workspace" text="Select workspace">
+                                 <content>
+                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                          <children>
+                                                            <HBox prefWidth="550.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                <children>
+                                                   <Label prefHeight="21.0" prefWidth="114.0" text="Manual control">
+                                                      <HBox.margin>
+                                                         <Insets top="5.0" />
+                                                      </HBox.margin>
+                                                   </Label>
+                                                                    <ComboBox fx:id="cb_wifi" prefHeight="31.0" prefWidth="203.0" promptText="select wifi ..." />
+                                                                    <Button fx:id="btn_log_start" mnemonicParsing="false" onAction="#startLogging" prefHeight="31.0" prefWidth="74.0" text="Start" />
+                                                                    <Button fx:id="btn_log_stop" mnemonicParsing="false" onAction="#stopLogging" prefHeight="31.0" prefWidth="79.0" text="Stop" />
+                                                   <Separator orientation="VERTICAL" />
+                                                                    <Button fx:id="btn_logg_clear" mnemonicParsing="false" onAction="#clearlogging" text="Cancel" />
+                                                                </children>
+                                                            </HBox>
+                                             <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
+                                                <content>
+                                                   <VBox fx:id="vb_workspaces_list" spacing="10.0">
+                                                      <padding>
+                                                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                      </padding>
+                                                   </VBox>
+                                                </content>
+                                             </ScrollPane>
+                                          </children>
+                                       </AnchorPane>
+                                 </content>
+                               </TitledPane>
+                               <TitledPane expanded="false" text="Settings &amp; Task Scheduler configuration">
+                                 <content>
+                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                          <children>
+                                             <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <children>
+                                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Configure workspaces and their locations, earning here:&#10;In format: [workstation name];[earning];[wlan name 1];[wlan name 2];...;[wlan name N]" />
+                                                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                                      <children>
+                                                                        <TextArea fx:id="ta_workspaces" minHeight="100.0" promptText="example: Work;5.5;wlan_1;wlan_2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0" />
+                                                                        <Button fx:id="btn_save_workspaces_config" mnemonicParsing="false" onAction="#saveWorkspaces" text="Save" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                      </children>
+                                                   </AnchorPane>
+                                                   <Separator prefWidth="200.0">
+                                                      <VBox.margin>
+                                                         <Insets top="5.0" />
+                                                      </VBox.margin>
+                                                   </Separator>
+                                                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                                                      <children>
+                                                         <Label text="How to register login/logout task in Task Scheduler ">
+                                                            <font>
+                                                               <Font size="18.0" />
+                                                            </font>
+                                                            <VBox.margin>
+                                                               <Insets />
+                                                            </VBox.margin>
+                                                         </Label>
+                                                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                                            <children>
+                                                               <Label text="Step 1">
+                                                                  <HBox.margin>
+                                                                     <Insets top="5.0" />
+                                                                  </HBox.margin>
+                                                               </Label>
+                                                               <Button mnemonicParsing="false" onAction="#generateBat" text="Generate *.bat files for Task Scheduler" />
+                                                               <Label text="Step 2">
+                                                                  <HBox.margin>
+                                                                     <Insets top="5.0" />
+                                                                  </HBox.margin>
+                                                               </Label>
+                                                               <Button mnemonicParsing="false" onAction="#generateXml" text="Generate *.xml Task Scheduler import files" />
+                                                               <Label fx:id="l_username" text="?">
+                                                                  <HBox.margin>
+                                                                     <Insets top="5.0" />
+                                                                  </HBox.margin>
+                                                                  <font>
+                                                                     <Font size="12.0" />
+                                                                  </font>
+                                                               </Label>
+                                                            </children>
+                                                         </HBox>
+                                                         <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                                            <children>
+                                                               <VBox prefHeight="200.0" prefWidth="100.0">
+                                                                  <children>
+                                                                     <HBox prefHeight="100.0" prefWidth="200.0">
+                                                                        <children>
+                                                                           <Label text="Step 3 ">
+                                                                              <HBox.margin>
+                                                                                 <Insets right="5.0" top="3.0" />
+                                                                              </HBox.margin>
+                                                                           </Label>
+                                                                           <Label text="Run Task Scheduler">
+                                                                              <font>
+                                                                                 <Font size="17.0" />
+                                                                              </font>
+                                                                           </Label>
+                                                                        </children>
+                                                                     </HBox>
+                                                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Click the Start button.&#10;Click Control Panel .&#10;Click System and Maintenance .&#10;Click Administrative Tools .&#10;Double-click Task Scheduler .">
+                                                                        <font>
+                                                                           <Font name="System Italic" size="15.0" />
+                                                                        </font>
+                                                                     </Text>
+                                                                  </children>
+                                                               </VBox>
+                                                               <VBox prefHeight="200.0" prefWidth="100.0">
+                                                                  <children>
+                                                                     <HBox prefHeight="100.0" prefWidth="200.0">
+                                                                        <children>
+                                                                           <Label text="Step 4 ">
+                                                                              <HBox.margin>
+                                                                                 <Insets right="5.0" top="3.0" />
+                                                                              </HBox.margin>
+                                                                           </Label>
+                                                                           <Label text="Import tasks">
+                                                                              <font>
+                                                                                 <Font size="17.0" />
+                                                                              </font>
+                                                                           </Label>
+                                                                        </children>
+                                                                     </HBox>
+                                                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Click the 'Import Task...' on right side of window.&#10;Select previously generated xml files (in step 2).">
+                                                                        <font>
+                                                                           <Font name="System Italic" size="15.0" />
+                                                                        </font>
+                                                                     </Text>
+                                                                  </children>
+                                                               </VBox>
+                                                               <ImageView fitHeight="130.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);;">
+                                                                  <image>
+                                                                     <Image url="@../resource/import.png" />
+                                                                  </image>
+                                                                  <HBox.margin>
+                                                                     <Insets top="5.0" />
+                                                                  </HBox.margin>
+                                                               </ImageView>
+                                                            </children>
+                                                         </HBox>
+                                                      </children>
+                                                   </VBox>
+                                                </children>
+                                             </VBox>
+                                          </children>
+                                       </AnchorPane>
+                                 </content>
+                               </TitledPane>
+                                 <TitledPane animated="false" text="About">
+                                   <content>
+                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                          <children>
+                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Created by Tilen Tomakić" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                             <Hyperlink layoutX="7.0" layoutY="32.0" onAction="#onGithubLinkClick" text="https://github.com/TT9388/WorkLogger" />
+                                          </children>
+                                       </AnchorPane>
+                                   </content>
+                                 </TitledPane>
+                             </panes>
+                           </Accordion>
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                </tabs>
+            </TabPane>
+        </AnchorPane>
+    </children>
+</VBox>

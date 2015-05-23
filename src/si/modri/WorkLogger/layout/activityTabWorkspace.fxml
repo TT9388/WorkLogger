@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<VBox fx:id="vb_container" prefHeight="600.0" prefWidth="800.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="si.modri.WorkLogger.TabWorkspaceController">
+    <children>
+        <FlowPane hgap="10.0" vgap="10.0">
+            <children>
+                <HBox spacing="5.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#onRefreshWorkspaceClick" prefHeight="31.0" prefWidth="81.0" text="Refresh" />
+                    </children>
+                </HBox>
+                <Separator orientation="VERTICAL" />
+                <Button fx:id="btn_save" disable="true" mnemonicParsing="false" onAction="#onSaveClick" text="Save table changes" />
+                <Separator orientation="VERTICAL" />
+                <Button fx:id="btn_add_entry" mnemonicParsing="false" onAction="#addEntryDialog" text="Add entry" />
+                <Separator orientation="VERTICAL" />
+                <HBox spacing="5.0">
+                    <children>
+                        <Label text="From">
+                            <HBox.margin>
+                                <Insets top="5.0" />
+                            </HBox.margin>
+                        </Label>
+                        <DatePicker fx:id="dp_from_date" onAction="#onFromDateSelect" prefWidth="150.0" />
+                        <Label text="to">
+                            <HBox.margin>
+                                <Insets top="5.0" />
+                            </HBox.margin>
+                        </Label>
+                        <DatePicker fx:id="dp_to_date" onAction="#onToDateSelect" prefWidth="150.0" />
+                        <Button mnemonicParsing="false" onAction="#onResetRangeClick" text="Current week" />
+                    </children>
+                </HBox>
+            </children>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <VBox.margin>
+                <Insets left="10.0" right="10.0" top="10.0" />
+            </VBox.margin>
+        </FlowPane>
+        <VBox fx:id="vb_add_entry">
+            <children>
+                <Separator prefWidth="200.0" />
+            <HBox>
+               <children>
+                  <VBox>
+                     <children>
+                            <Label text="Start time" />
+                            <HBox spacing="5.0">
+                                <children>
+                                    <DatePicker fx:id="dp_add_start_date" prefHeight="31.0" prefWidth="160.0" />
+                                    <Separator orientation="VERTICAL" />
+                                    <TextField fx:id="tf_add_start_h" prefWidth="40.0" />
+                                    <Label text="h">
+                                        <HBox.margin>
+                                            <Insets top="5.0" />
+                                        </HBox.margin>
+                                    </Label>
+                                    <TextField fx:id="tf_add_start_min" prefWidth="40.0" />
+                                    <Label text="min">
+                                        <HBox.margin>
+                                            <Insets top="5.0" />
+                                        </HBox.margin>
+                                    </Label>
+                                </children>
+                            </HBox>
+                            <Label text="End time" />
+                            <HBox spacing="5.0">
+                                <children>
+                                    <DatePicker fx:id="dp_add_end_date" prefWidth="160.0" />
+                                    <Separator orientation="VERTICAL" />
+                                    <TextField fx:id="tf_add_end_h" prefWidth="40.0" />
+                                    <Label text="h">
+                                        <HBox.margin>
+                                            <Insets top="5.0" />
+                                        </HBox.margin>
+                                    </Label>
+                                    <TextField fx:id="tf_add_end_min" prefWidth="40.0" />
+                                    <Label text="min">
+                                        <HBox.margin>
+                                            <Insets top="5.0" />
+                                        </HBox.margin>
+                                    </Label>
+                                </children>
+                            </HBox>
+                     </children>
+                  </VBox>
+                  <VBox spacing="20.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#cancel_add_entry_dialog" prefWidth="80.0" text="Cancel">
+                           <VBox.margin>
+                              <Insets top="30.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="9.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#add_entry_from_dialog" prefWidth="80.0" text="Add" />
+                     </children>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </VBox>
+        <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
+            <items>
+                <AnchorPane maxWidth="-Infinity" minWidth="-Infinity" prefWidth="380.0">
+                    <children>
+                        <TableView fx:id="tv_entries" editable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <columns>
+                                <TableColumn fx:id="tc_start" maxWidth="130.0" minWidth="130.0" onEditCommit="#onEntriesColumnEditCommit" prefWidth="130.0" text="Start time" />
+                                <TableColumn fx:id="tc_end" maxWidth="130.0" minWidth="130.0" onEditCommit="#onEntriesColumnEditCommit" prefWidth="130.0" text="End time" />
+                                <TableColumn fx:id="tc_duration" editable="false" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Duration" />
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                            <contextMenu>
+                                <ContextMenu>
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" onAction="#onRemoveEntryClick" text="Remove" />
+                                    </items>
+                                </ContextMenu>
+                            </contextMenu>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+                <AnchorPane>
+                    <children>
+                  <HBox spacing="5.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                     <children>
+                                  <HBox spacing="5.0">
+                                      <children>
+                                          <Label text="Calculate with">
+                                              <padding>
+                                                  <Insets top="5.0" />
+                                              </padding>
+                                          </Label>
+                                          <TextField fx:id="tf_earning" onAction="#reCalculateStatistics" onKeyReleased="#reCalculateStatistics" prefHeight="13.0" prefWidth="52.0" text="0" />
+                                          <Label text="€/h">
+                                              <HBox.margin>
+                                                  <Insets top="5.0" />
+                                              </HBox.margin>
+                                          </Label>
+                                      </children>
+                                  </HBox>
+                                  <HBox spacing="5.0">
+                                      <children>
+                                          <Label text="Total time" />
+                                          <Label fx:id="l_totalTime" text="NaN" />
+                                      </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                                  </HBox>
+                                  <HBox spacing="5.0">
+                                      <children>
+                                          <Label text="Toatal earning" />
+                                          <Label fx:id="l_totalEarning" text="NaN" />
+                                      </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                                  </HBox>
+                     </children>
+                  </HBox>
+                  <AnchorPane fx:id="ap_week_graph_container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0">
+                     <children>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                                      <Canvas fx:id="c_week_graph" height="457.0" width="402.0" />
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </children>
+</VBox>

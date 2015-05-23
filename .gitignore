@@ -1,6 +1,7 @@
 .idea/
 out/production
-lib/
 app/
 logout.bat
 login.bat
+Task scheduler import files/WorkLogger - login.xml
+Task scheduler import files/WorkLogger - logout.xml
