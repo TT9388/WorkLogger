@@ -5,3 +5,4 @@ logout.bat
 login.bat
 Task scheduler import files/WorkLogger - login.xml
 Task scheduler import files/WorkLogger - logout.xml
+out/artifacts/WorkLogger_jar/Task Scheduler import files/

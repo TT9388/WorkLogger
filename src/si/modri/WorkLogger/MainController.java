@@ -21,6 +21,7 @@ import org.controlsfx.control.Notifications;
 
 import java.awt.*;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -291,12 +292,12 @@ public class MainController implements Initializable {
     }
 
     public boolean generateXmlFile(String name){
-        ClassLoader classLoader = getClass().getClassLoader();
         String result = null;
         try {
-            result = IOUtils.toString(classLoader.getResourceAsStream("si/modri/WorkLogger/resource/"+name), "UTF-16");
+            result = IOUtils.toString(getClass().getResourceAsStream("resource/" + name), "UTF-16");
             result = processXmlImport(result);
-        } catch (IOException e) { }
+        }
+        catch (IOException e){}
 
         try {
             new File(Config.XML_OUT_LOCATION).mkdir();
@@ -330,7 +331,7 @@ public class MainController implements Initializable {
         }
         String user;
         try {
-            user = InetAddress.getLocalHost().getHostName() + "/" + System.getProperty("user.name");
+            user = InetAddress.getLocalHost().getHostName() + "\\" + System.getProperty("user.name");
         } catch (UnknownHostException e) {
             return null;
         }
