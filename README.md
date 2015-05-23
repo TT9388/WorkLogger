@@ -7,7 +7,7 @@ A program that records how much time the user has used the computer at a specifi
 * An overview of using a computer (data) in the form of graphs
 * Manually edit data
 * View statistics and conversion into income (optional calculated for a given time interval)
-~~* Publication of data in the Google Calendar service~~
+* ~~ Publication of data in the Google Calendar service~~
 
 >For GUI is used JavaFX
 
