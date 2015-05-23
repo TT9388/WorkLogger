@@ -1,4 +1,6 @@
 .idea/
-out/
+out/production
 lib/
 app/
+logout.bat
+login.bat
