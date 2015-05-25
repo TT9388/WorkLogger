@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import org.controlsfx.control.Notifications;
 import org.controlsfx.dialog.Dialogs;
 import org.controlsfx.validation.ValidationResult;
@@ -19,10 +20,12 @@ import org.controlsfx.validation.ValidationSupport;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 public class TabWorkspaceController implements Initializable {
@@ -192,6 +195,32 @@ public class TabWorkspaceController implements Initializable {
     }
 
     /**
+     * Import ics file.
+     */
+    public void importFile(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select *.ics files");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("*.ics","*.ics"));
+        List<File> list = fileChooser.showOpenMultipleDialog(null);
+        if (list != null) {
+            for (File file : list) {
+                if(workspaceManager.loadFromIcsFile(file)){
+                    Notifications.create()
+                            .text("Imported.")
+                            .showInformation();
+                } else {
+                    Notifications.create()
+                            .title("Error")
+                            .text("Failed to import.")
+                            .showWarning();
+                }
+            }
+            btn_save.setDisable(false);
+            refreshAll();
+        }
+    }
+
+    /**
      * Save.
      */
     public void onSaveClick() {
@@ -353,14 +382,18 @@ public class TabWorkspaceController implements Initializable {
 
             WorkspaceManager.TimeEntry timeEntry = new WorkspaceManager(). new TimeEntry(startDate, endDate);
             workspaceManager.entries.put(timeEntry.getKey(), timeEntry);
-            fillEntriesTable();
-            canvasWeekDraw.draw();
             btn_save.setDisable(false);
-            calculateStatistics();
+            refreshAll();
 
             hideShowAddEntryDialog(false);
         } catch (Exception e){
 
         }
+    }
+
+    public void refreshAll(){
+        fillEntriesTable();
+        canvasWeekDraw.draw();
+        calculateStatistics();
     }
 }

@@ -1,16 +1,18 @@
 package si.modri.WorkLogger;
 
+import biweekly.Biweekly;
+import biweekly.ICalendar;
+import biweekly.component.VEvent;
 import javafx.beans.property.SimpleStringProperty;
+import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
@@ -248,6 +250,42 @@ public class WorkspaceManager {
             log.log(Level.INFO, "read > FileNotFoundException - For workspace: " + name);
         } catch (Exception e) {
             log.log(Level.SEVERE, e.toString(), e);
+        }
+
+        return false;
+    }
+
+    /**
+     * Load data from ics file
+     * @param f - file
+     * @return true if Ok else false
+     */
+    public boolean loadFromIcsFile(File f){
+        String content = null;
+        try {
+            FileInputStream inputStream = new FileInputStream(f);
+            content = IOUtils.toString(inputStream);
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(content != null){
+
+            //parse the first iCalendar object from the data stream
+            ICalendar ical = Biweekly.parse(content).first();
+
+            //or parse all objects from the data stream
+            List<ICalendar> icals = Biweekly.parse(content). all();
+
+            for(ICalendar c: icals){
+
+                for(VEvent e: c.getEvents()){
+                    TimeEntry timeEntry = new WorkspaceManager(). new TimeEntry(e.getDateStart().getValue().getTime(), e.getDateEnd().getValue().getTime());
+                    entries.put(timeEntry.getKey(), timeEntry);
+                }
+            }
+            return true;
         }
 
         return false;

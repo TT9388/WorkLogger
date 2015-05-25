@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+
 <VBox fx:id="vb_container" prefHeight="600.0" prefWidth="800.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="si.modri.WorkLogger.TabWorkspaceController">
     <children>
         <FlowPane hgap="10.0" vgap="10.0">
@@ -36,6 +40,8 @@
                         <Button mnemonicParsing="false" onAction="#onResetRangeClick" text="Current week" />
                     </children>
                 </HBox>
+            <Separator orientation="VERTICAL" />
+            <Button mnemonicParsing="false" onAction="#importFile" text="Import" />
             </children>
             <opaqueInsets>
                 <Insets />
